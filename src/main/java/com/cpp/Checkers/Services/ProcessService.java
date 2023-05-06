@@ -28,7 +28,6 @@ public class ProcessService {
     }
 
     @Transactional
-    @Async
     public void init(Process process){
         process.setInit_date(new Date());
         Calendar del = Calendar.getInstance();

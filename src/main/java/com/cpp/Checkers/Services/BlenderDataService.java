@@ -25,7 +25,6 @@ public class BlenderDataService {
 
 
     @Transactional
-    @Async
     public void sendToBlender(BlenderData blenderData, Process process) throws IOException, InterruptedException {
         File jsonMap = File.createTempFile(process.getProcess_id() + "_", ".json", new File(pythonScriptPath));
         ObjectMapper mapper = new ObjectMapper();
