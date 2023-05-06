@@ -2,9 +2,13 @@ package com.cpp.Checkers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-public class CheckersApplication {
+@EnableScheduling
+@EnableAsync
+public class CheckersApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(CheckersApplication.class, args);

@@ -1,29 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>Title</title>
+  <script src="../js/script.js"></script>
+  <link rel="stylesheet" href="/css/styles.css" type="text/css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
 </head>
 <body>
 
-<form method="POST" th:action="@{/start}" th:object="${blenderData}">
-  <label for="field1">Число фигур, которое можно использовать</label>
-  <br/>
-  <input type="number" th:field="*{field1}" id="field1" />
-  <div style="color:red" th:if="${#fields.hasErrors('field1')}" th:errors = "*{field1}">numOfCheckers error</div>
-  <br/>
-  <label for="field2">Разрешение исходного изображения. Выпадающий список</label>
-  <br/>
-  <input type="text" th:field="*{field2}" id="field2"/>
-  <div style="color:red" th:if="${#fields.hasErrors('field2')}" th:errors = "*{field2}">resolution error</div>
-  <br/>
-  <label for="field3">field3</label>
-  <br/>
-  <input type="number" th:field="*{field3}" id="field3" step=".01"/>
-  <div style="color:red" th:if="${#fields.hasErrors('field3')}" th:errors = "*{field3}">field3 error</div>
-  <br/>
-  <input type="submit" value="Create"/>
-</form>
+<div id="heading">
+  <h1>.cpp Team present</h1>
+</div>
 
+<div id="section">
+  <h1>Проект генерации шашечных партий</h1>
+  <div>
+
+    <h2>Ввод параметров:</h2>
+    <div id="wrapper">
+      <div class="container">
+        <form enctype="multipart/form-data" id="form">
+
+          <label for="numOfCheckers"><main>Число фигур, которое можно использовать</main></label>
+          <br/>
+          <input type="number" id="numOfCheckers" name="numOfCheckers"/>
+          <br/>
+
+
+
+          <label for="resolution"><main>Разрешение исходного изображения</main></label>
+          <br/>
+          <input type="text" id="resolution" name="resolution"/>
+          <br/>
+
+
+
+          <label for="Samples"><main>Колво Сэмплов</main></label>
+          <br/>
+          <input type="number" id="Samples" name="samples" step="1"/>
+          <br/>
+
+
+          <label><main>Диапазон допустимого размера фигур</main></label>
+
+
+          <br/>
+          <label for="FigureSizeMin">FigureSizeMin</label>
+          <input type="number" id="FigureSizeMin" name="figureSizeMin" step="0.01"/>
+          <br/>
+
+
+          <label for="FigureSizeMax">FigureSizeMax</label>
+          <input type="number" id="FigureSizeMax" name="figureSizeMax" step="0.01"/>
+          <br/>
+
+
+
+          <label><main>Диапазон сдвига фигур относительно начальной позиции</main></label>
+          <br/>
+          <label for="x_min">x_min</label>
+          <input type="number" id="x_min" name="x_min" step="1"/>
+          <br/>
+          <label for="x_max">x_max</label>
+          <input type="number" id="x_max" name="x_max" step="1"/>
+          <br/>
+          <label for="y_min">y_min</label>
+          <input type="number" id="y_min" name="y_min" step="1"/>
+          <br/>
+          <label for="y_max">y_max</label>
+          <input type="number" id="y_max" name="y_max" step="1"/>
+          <br/>
+          <label for="z_min">z_min</label>
+          <input type="number" id="z_min" name="z_min" step="1"/>
+          <br/>
+          <label for="z_max">z_max</label>
+          <input type="number" id="z_max" name="z_max" step="1"/>
+          <br/>
+
+
+          <button type="submit" onclick="saveFormData(event)">Send to Server as JSON</button>
+        </form>
+      </div>
+    </div>
+
+    <figure>
+      <img id="myImage" src="/images/x970sK_5LeQ.jpg" alt="Default image">
+    </figure>
+  </div>>
+</div>
 </body>
 </html>

@@ -7,20 +7,23 @@ import com.cpp.Checkers.Services.ProcessService;
 import com.cpp.Checkers.dto.BlenderDataDTO;
 import com.cpp.Checkers.util.BlenderDataErrorResponse;
 import com.cpp.Checkers.util.BlenderDataNotCreatedException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/start")
+@SessionAttributes("process")
 public class StartPage {
 
     private final ProcessService processService;
@@ -33,40 +36,58 @@ public class StartPage {
     }
 
     @GetMapping()
-    public String Start(Model model) {
-        model.addAttribute("blenderData", new BlenderDataDTO());
-        return "Start";
+    public String Start() {
+        return "Start_page";
     }
 
     @ResponseBody
     @GetMapping("/check")
-    public BlenderDataDTO check_data(Model model){
-
-        return new BlenderDataDTO("Ok");
+    @Transactional
+    public ResponseEntity<BlenderDataDTO> check_data(Model model){
+        Process process = (Process) model.getAttribute("process");
+        if (process != null && process.getStatus().equals("INPRG"))
+            return new ResponseEntity<>(null, HttpStatus.PROCESSING);
+        else if (process != null && process.getStatus().equals("DEL"))
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new BlenderDataDTO("images/x970sK_5LeQ.jpg"), HttpStatus.CREATED);
     }
 
 
     @PostMapping()
-    public ResponseEntity<BlenderDataDTO> create(@RequestBody @Valid BlenderDataDTO blenderData,
-                                             BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<HttpStatus> create(@RequestBody BlenderData blenderData,
+                                             BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
 
             List<FieldError> errors = bindingResult.getFieldErrors();
 
-            for (FieldError error : errors){
+            for (FieldError error : errors) {
                 errorMsg.append(error.getField())
-                        .append("-").append(error.getDefaultMessage()).append(";");
+                        .append(" ").append(error.getDefaultMessage()).append(";");
             }
 
             throw new BlenderDataNotCreatedException(errorMsg.toString());
         }
-        Process process = new Process("Start");
+        System.out.println(processService.getToBeDeleted());
+        Process process = new Process("INPRG");
         System.out.println(blenderData);
-        processService.save(process);
-        //blenderDataService.sendToBlender(blenderData);
+        processService.init(process);
+        try {
+            blenderDataService.sendToBlender(blenderData, process);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        model.addAttribute("process", process);
         System.out.println(process.getProcess_id());
-        return new ResponseEntity<>(blenderData, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{process_id}")
+    public BlenderDataDTO show(@PathVariable int process_id, Model model){
+
+        return new BlenderDataDTO("images/x970sK_5LeQ.jpg");
     }
 
 

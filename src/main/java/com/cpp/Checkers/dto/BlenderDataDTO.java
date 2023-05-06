@@ -1,27 +1,24 @@
 package com.cpp.Checkers.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class BlenderDataDTO {
     public BlenderDataDTO() {
     }
+    @JsonProperty("imagePath")
+    private String imagePath;
 
-    private String Text;
-
-    public String getText() {
-        return Text;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setText(String text) {
-        this.Text = text;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
-    public BlenderDataDTO(String Text) {
-        this.Text = Text;
-    }
-
-    @Override
-    public String toString() {
-        return "BlenderDataDTO{" +
-                "Text='" + Text + '\'' +
-                '}';
+    public BlenderDataDTO(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
