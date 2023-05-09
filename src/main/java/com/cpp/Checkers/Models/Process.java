@@ -1,10 +1,8 @@
 package com.cpp.Checkers.Models;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -14,7 +12,7 @@ public class Process {
     @Id
     @Column(name = "process_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int process_id;
+    private int processid;
 
     @Column(name = "status")
     private String status;
@@ -42,12 +40,12 @@ public class Process {
 
     }
 
-    public int getProcess_id() {
-        return process_id;
+    public int getProcessid() {
+        return processid;
     }
 
-    public void setProcess_id(int process_id) {
-        this.process_id = process_id;
+    public void setProcessid(int processid) {
+        this.processid = processid;
     }
 
     public Process(String status) {
@@ -81,7 +79,7 @@ public class Process {
     @Override
     public String toString() {
         return "Process{" +
-                "process_id=" + process_id +
+                "processid=" + processid +
                 ", status='" + status + '\'' +
                 ", init_date=" + init_date +
                 ", del_date=" + del_date +

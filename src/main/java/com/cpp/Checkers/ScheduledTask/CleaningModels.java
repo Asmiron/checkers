@@ -25,12 +25,29 @@ public class CleaningModels {
     public void CleanModels(){
         List<Process> processes = processService.getToBeDeleted();
         for (Process process: processes) {
-            File file = new File(process.getJsPath());
+            File file = new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" + process.getProcessid());
             if(file.exists()){
-                file.delete();
+                recursiveDelete(file);
                 process.setStatus("DEL");
                 processService.save(process);
             } else System.out.println(process.getJsPath() + " не существует");
         }
+    }
+
+    public static void recursiveDelete(File file) {
+        // до конца рекурсивного цикла
+        if (!file.exists())
+            return;
+
+        //если это папка, то идем внутрь этой папки и вызываем рекурсивное удаление всего, что там есть
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                // рекурсивный вызов
+                recursiveDelete(f);
+            }
+        }
+        // вызываем метод delete() для удаления файлов и пустых(!) папок
+        file.delete();
+        System.out.println("Удаленный файл или папка: " + file.getAbsolutePath());
     }
 }

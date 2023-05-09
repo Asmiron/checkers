@@ -28,14 +28,14 @@ function saveFormData(event) {
 function sendData(data) {
     var xhr = new XMLHttpRequest();
     console.log("xhr");
-    xhr.open("POST", "/start", true);
+    xhr.open("POST", "/processes", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 console.log(xhr.responseText);
             } else {
-                console.log("not 200");
+                document.getElementById("loading-container").style.display = "flex";
                 setTimeout(function() {
                     sendGetRequest();
                 }, 5000);
@@ -50,18 +50,37 @@ function sendGetRequest() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 201) {
             let response = JSON.parse(xhr.responseText);
+            let jsonText = JSON.stringify(response.json_data);
             let imagePath = response.imagePath;
 
-            // Update the image src attribute with the new path
+            // Update the image and json text
             let img = document.getElementById("myImage");
+            let jsonData = document.getElementById("json_data");
             img.src = imagePath;
+            jsonData.textContent = jsonText;
+            document.getElementById("loading-container").style.display = "none";
+
+            // Create a download link for the JSON file and add it to the page
+            let jsonDownload = document.getElementById('json_download');
+            jsonDownload.textContent = 'Download JSON';
+            jsonDownload.addEventListener('click', () => {
+
+                const blob = new Blob([jsonText], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
         }
         else {
             // Request failed, handle error
-            console.error('Image request failed');
+            console.error('Image and json request failed');
         }
     };
-    xhr.open("GET", "/start/check", true);
+    xhr.open("GET", "/processes/check", true);
     xhr.send();
 }
 

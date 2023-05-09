@@ -7,10 +7,10 @@ import com.cpp.Checkers.Services.ProcessService;
 import com.cpp.Checkers.dto.BlenderDataDTO;
 import com.cpp.Checkers.util.BlenderDataErrorResponse;
 import com.cpp.Checkers.util.BlenderDataNotCreatedException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,11 +18,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/start")
+@RequestMapping("/processes")
 @SessionAttributes("process")
 public class StartPage {
 
@@ -41,17 +42,40 @@ public class StartPage {
     }
 
     @ResponseBody
-    @GetMapping("/check")
+    @GetMapping("/{process_id}")
     @Transactional
-    public ResponseEntity<BlenderDataDTO> check_data(Model model){
-        Process process = (Process) model.getAttribute("process");
+    public ResponseEntity<BlenderDataDTO> check_data(Model model, @PathVariable Integer process_id) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Process process = processService.getProcessById(process_id);
         if (process != null && process.getStatus().equals("INPRG"))
             return new ResponseEntity<>(null, HttpStatus.PROCESSING);
         else if (process != null && process.getStatus().equals("DEL"))
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(new BlenderDataDTO("images/x970sK_5LeQ.jpg"), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                new BlenderDataDTO("images/akrinskaja-1.jpg",
+                        objectMapper.readValue(new File("images/" + process_id.toString() + "_text.txt"), BlenderData.class)), HttpStatus.CREATED);
+
     }
 
+
+    @ResponseBody
+    @GetMapping("/check")
+    @Transactional
+    public ResponseEntity<BlenderDataDTO> check_data(Model model) throws IOException {
+        Process process = (Process)model.getAttribute("process");
+        ObjectMapper objectMapper = new ObjectMapper();
+        if (process != null && process.getStatus().equals("INPRG"))
+            return new ResponseEntity<>(null, HttpStatus.PROCESSING);
+        else if (process != null && process.getStatus().equals("DEL"))
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        //File file = new File("images/" + process.getProcessid()+ "_text.txt");
+        BlenderData blenderData = objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" +
+                process.getProcessid() + "/" + process.getProcessid() + "_text.json"), BlenderData.class);
+        return new ResponseEntity<>(new BlenderDataDTO("images/akrinskaja-1.jpg",
+                objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" +
+                        process.getProcessid() + "/" + process.getProcessid() + "_text.json"), BlenderData.class)),
+                HttpStatus.CREATED);
+    }
 
     @PostMapping()
     @ResponseBody
@@ -80,15 +104,10 @@ public class StartPage {
             throw new RuntimeException(e);
         }
         model.addAttribute("process", process);
-        System.out.println(process.getProcess_id());
+        System.out.println(process.getProcessid());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/{process_id}")
-    public BlenderDataDTO show(@PathVariable int process_id, Model model){
-
-        return new BlenderDataDTO("images/x970sK_5LeQ.jpg");
-    }
 
 
     @ExceptionHandler

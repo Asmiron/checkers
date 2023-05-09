@@ -4,6 +4,7 @@ import com.cpp.Checkers.Models.Process;
 import com.cpp.Checkers.Repositories.ProcessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,17 @@ public class ProcessService {
     @Transactional
     public List<Process> getToBeDeleted(){
         return processRepository.ToBeDeleted(new Date());
+    }
+
+
+    @Transactional
+    public List<Process> showAll(Integer page, Integer limit){
+        return processRepository.findAll(PageRequest.of(page, limit)).getContent();
+    }
+
+    @Transactional
+    public Process getProcessById(Integer process_id){
+        return processRepository.findByProcessid(process_id);
     }
 
 }
