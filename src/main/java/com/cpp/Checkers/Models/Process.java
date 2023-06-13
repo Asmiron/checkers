@@ -1,5 +1,6 @@
 package com.cpp.Checkers.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 

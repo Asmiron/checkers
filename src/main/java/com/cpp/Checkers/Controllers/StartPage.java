@@ -8,6 +8,7 @@ import com.cpp.Checkers.dto.BlenderDataDTO;
 import com.cpp.Checkers.util.BlenderDataErrorResponse;
 import com.cpp.Checkers.util.BlenderDataNotCreatedException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/processes")
 @SessionAttributes("process")
 public class StartPage {
 
+    //private final Logger logger= LoggerFactory.getLogger(StartPage.class);
     private final ProcessService processService;
     private final BlenderDataService blenderDataService;
 
@@ -52,11 +55,24 @@ public class StartPage {
         else if (process != null && process.getStatus().equals("DEL"))
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(
-                new BlenderDataDTO("images/akrinskaja-1.jpg",
-                        objectMapper.readValue(new File("images/" + process_id.toString() + "_text.txt"), BlenderData.class)), HttpStatus.CREATED);
+                new BlenderDataDTO("static/images/2009/2009.jpg",
+                        objectMapper.readValue(new File("images/" + process_id.toString() + "_text.json"), BlenderData.class)), HttpStatus.CREATED);
 
     }
 
+    @GetMapping("/index")
+    public ResponseEntity<List<Process>> index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("limit") Optional<Integer> limit){
+        int currPage = page.orElse(1);
+        int currLimit = limit.orElse(20);
+        List<Process> processes = processService.showAll(currPage - 1, currLimit);
+        model.addAttribute("processes", processes);
+        return new ResponseEntity<>(processes, HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public String List(@RequestParam("page") Optional<Integer> page, @RequestParam("limit") Optional<Integer> limit){
+        return "processes";
+    }
 
     @ResponseBody
     @GetMapping("/check")
@@ -68,10 +84,8 @@ public class StartPage {
             return new ResponseEntity<>(null, HttpStatus.PROCESSING);
         else if (process != null && process.getStatus().equals("DEL"))
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        //File file = new File("images/" + process.getProcessid()+ "_text.txt");
-        BlenderData blenderData = objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" +
-                process.getProcessid() + "/" + process.getProcessid() + "_text.json"), BlenderData.class);
-        return new ResponseEntity<>(new BlenderDataDTO("images/akrinskaja-1.jpg",
+        assert process != null;
+        return new ResponseEntity<>(new BlenderDataDTO("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/2009/2009.jpg",
                 objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" +
                         process.getProcessid() + "/" + process.getProcessid() + "_text.json"), BlenderData.class)),
                 HttpStatus.CREATED);
@@ -80,18 +94,17 @@ public class StartPage {
     @PostMapping()
     @ResponseBody
     @Transactional
-    public ResponseEntity<HttpStatus> create(@RequestBody BlenderData blenderData,
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid BlenderData blenderData,
                                              BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
 
-            List<FieldError> errors = bindingResult.getFieldErrors();
+            List<ObjectError> errors = bindingResult.getAllErrors();
 
-            for (FieldError error : errors) {
-                errorMsg.append(error.getField())
-                        .append(" ").append(error.getDefaultMessage()).append(";");
+            for (ObjectError error : errors) {
+                errorMsg.append(error.getDefaultMessage()).append("; ");
             }
-
+            //logger.error("Not valid data: " + errorMsg.toString());
             throw new BlenderDataNotCreatedException(errorMsg.toString());
         }
         System.out.println(processService.getToBeDeleted());
@@ -116,6 +129,7 @@ public class StartPage {
                 e.getMessage(),
                 System.currentTimeMillis()
         );
+        //logger.error("Data not created: " + e);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

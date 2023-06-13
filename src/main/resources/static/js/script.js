@@ -12,7 +12,19 @@ function saveFormData(event) {
     for (let i = 0; i < form.elements.length; i++) {
         let element = form.elements[i];
         if (element.type !== "submit") {
-           formData[element.name] = element.value;
+            if (element.name === "figureSizeMin" || element.name === "figureSizeMax") {
+                if (!formData["figureSize"]){
+                    formData["figureSize"] = {};
+                }
+                formData.figureSize[element.name] = element.value;
+            } else if (element.name === "x_min" || element.name === "x_max" || element.name === "y_min" || element.name === "y_max" || element.name === "z_min" || element.name === "z_max") {
+                if (!formData["offset"]){
+                    formData["offset"] = {};
+                }
+                formData.offset[element.name] = element.value;
+            } else {
+                formData[element.name] = element.value;
+            }
         }
     }
 
@@ -35,7 +47,7 @@ function sendData(data) {
             if (xhr.status === 200) {
                 console.log(xhr.responseText);
             } else {
-                document.getElementById("loading-container").style.display = "flex";
+                document.getElementById("loading-container").style.display = "block";
                 setTimeout(function() {
                     sendGetRequest();
                 }, 5000);
