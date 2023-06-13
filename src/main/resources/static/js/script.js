@@ -47,7 +47,8 @@ function sendData(data) {
             if (xhr.status === 200) {
                 console.log(xhr.responseText);
             } else {
-                document.getElementById("loading-container").style.display = "block";
+                document.body.classList.add('dimmed');
+                document.getElementById('loading-animation').style.display = 'block';
                 setTimeout(function() {
                     sendGetRequest();
                 }, 5000);
@@ -70,7 +71,12 @@ function sendGetRequest() {
             let jsonData = document.getElementById("json_data");
             img.src = imagePath;
             jsonData.textContent = jsonText;
-            document.getElementById("loading-container").style.display = "none";
+            document.body.classList.remove('dimmed');
+            document.getElementById("loading-animation").style.display = "none";
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
 
             // Create a download link for the JSON file and add it to the page
             let jsonDownload = document.getElementById('json_download');
@@ -86,6 +92,14 @@ function sendGetRequest() {
                 link.click();
                 document.body.removeChild(link);
             });
+
+            document.body.classList.remove('dimmed');
+            document.getElementById("loading-animation").style.display = "none";
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+
         }
         else {
             // Request failed, handle error

@@ -42,6 +42,9 @@ public class BlenderData {
             Max = "FigureSizeMax"
     )
     private static class FigureSize{
+        public FigureSize() {
+        }
+
         public float getFigureSizeMin() {
             return FigureSizeMin;
         }
@@ -102,6 +105,9 @@ public class BlenderData {
             )
     })
     public static class offset{
+        public offset() {
+        }
+
         @Override
         public String toString() {
             return "Offset{" +

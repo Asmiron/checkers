@@ -4,16 +4,34 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <title>Title</title>
-  <script src="../js/script.js"></script>
-  <link rel="stylesheet" href="/css/styles.css" type="text/css">
-  <link rel="stylesheet" href="/css/loading.css" type="text/css">
+
+  <script src="js/script.js"></script>
+
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" href="css/loading.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/SidePanel.css">
+  <link rel="stylesheet" type="text/css" href="css/dim.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
 </head>
-<body>
 
+<body>
 <div id="heading">
   <h1>.cpp Team present</h1>
 </div>
+<div id="panel">
+  <button id="toggleBtn">
+    <span class="stripe"></span>
+    <span class="stripe"></span>
+    <span class="stripe"></span>
+  </button>
+  <div id="panelContent">
+    <div id="extendedButtons">
+      <button type="submit" onclick="goToHome()">Home</button>
+      <button type="submit" onclick="goToResults()">Results</button>
+    </div>
+  </div>
+</div>
+<script src="js/SidePanel.js"></script>
 
 <div id="section">
   <h1>Проект генерации шашечных партий</h1>
@@ -33,7 +51,7 @@
 
           <label for="resolution"><main>Разрешение исходного изображения</main></label>
           <br/>
-          <input type="text" id="resolution" name="resolution"/>
+          <input type="number" id="resolution" name="resolution"/>
           <br/>
 
 
@@ -81,20 +99,18 @@
           <br/>
 
 
-          <button type="submit" onclick="saveFormData(event)">Send to Server as JSON</button>
+          <button id="standart-button" type="submit" onclick="saveFormData(event)">Send to Server as JSON</button>
         </form>
       </div>
     </div>
-    <div id="image-container">
-      <div id="loading-animation"></div>
-    </div>
+    <div id="loading-animation" style="display: none;"></div>
     <div id="json_download"></div>
     <div id="json_data"></div>
 
     <figure>
-      <img id="myImage" src="/images/2009/2009.jpg" alt="Default image">
+      <img id="myImage" alt="Default image" style="display: none;">
     </figure>
-  </div>>
+  </div>
 </div>
 </body>
 </html>
