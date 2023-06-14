@@ -30,6 +30,16 @@ select {
     text-align-last: center;
 }
 
+a {
+    background-color: #f3f3f3;
+    border: 1px solid #d7d7d7;
+    height: 30px;
+    width: 507px;
+    color: #525252;
+    vertical-align: top;
+    text-align-last: center;
+}
+
 #standart-button {
     margin: 20px 0;
     color: #fff;
@@ -83,16 +93,16 @@ h2 {
 }
 
 .container {
-  margin-left: 0;
-  margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 
-  width: 500px;
-  clear: both;
+    width: 500px;
+    clear: both;
 }
 
 .container input {
-  width: 100%;
-  clear: both;
+    width: 100%;
+    clear: both;
 }
 
 
@@ -101,4 +111,27 @@ label main {
     font: 16px Tahoma, sans-serif;
     background-color: #f8f8f8;
     margin: 0;
+}
+
+#file-list-container {
+    background-color: #f1f1f1; /* Set the background color to gray */
+    padding: 20px; /* Add padding to create space between the box and its contents */
+}
+
+#file-list {
+    display: flex;
+    flex-wrap: wrap; /* Wrap the line every 4 paragraphs */
+    align-items: flex-start; /* Adjusted to align content to the left */
+    justify-content: flex-start; /* Adjusted to align content to the left */
+}
+
+#file-list li {
+    margin-bottom: 10px; /* Adjust as needed */
+    list-style-type: disc; /* Add a bullet point/dot */
+    padding-left: 20px; /* Add left padding of 20 pixels */
+    width: calc(25% - 20px); /* Adjusted to fit 4 paragraphs per line with left padding */
+}
+
+#file-list li a {
+    font-size: 16px; /* Increase the font size as needed */
 }

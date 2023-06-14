@@ -47,7 +47,7 @@ public class StartPage {
     @ResponseBody
     @GetMapping("/{process_id}")
     @Transactional
-    public ResponseEntity<BlenderDataDTO> check_data(Model model, @PathVariable Integer process_id) throws IOException {
+    public ResponseEntity<BlenderDataDTO> get_data(Model model, @PathVariable Integer process_id) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Process process = processService.getProcessById(process_id);
         if (process != null && process.getStatus().equals("INPRG"))
@@ -55,13 +55,16 @@ public class StartPage {
         else if (process != null && process.getStatus().equals("DEL"))
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(
-                new BlenderDataDTO("static/images/2009/2009.jpg",
-                        objectMapper.readValue(new File("images/" + process_id.toString() + "_text.json"), BlenderData.class)), HttpStatus.CREATED);
+                new BlenderDataDTO("images/2009/2009.jpg",
+                        objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/images/"
+                                + process_id.toString() + "_text.json"), BlenderData.class)),
+                HttpStatus.CREATED);
 
     }
 
     @GetMapping("/index")
-    public ResponseEntity<List<Process>> index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("limit") Optional<Integer> limit){
+    public ResponseEntity<List<Process>> index(Model model, @RequestParam(value = "page") Optional<Integer> page,
+                                               @RequestParam(value = "limit") Optional<Integer> limit){
         int currPage = page.orElse(1);
         int currLimit = limit.orElse(20);
         List<Process> processes = processService.showAll(currPage - 1, currLimit);
@@ -85,7 +88,7 @@ public class StartPage {
         else if (process != null && process.getStatus().equals("DEL"))
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         assert process != null;
-        return new ResponseEntity<>(new BlenderDataDTO("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/2009/2009.jpg",
+        return new ResponseEntity<>(new BlenderDataDTO("images/2009/2009.jpg",
                 objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" +
                         process.getProcessid() + "/" + process.getProcessid() + "_text.json"), BlenderData.class)),
                 HttpStatus.CREATED);

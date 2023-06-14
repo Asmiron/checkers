@@ -61,7 +61,7 @@ public class ProcessService {
     @Transactional
     public List<Process> showAll(Integer page, Integer limit){
         Pageable pageable =  PageRequest.of(page, limit);
-        return processRepository.findAllByStatusIs("COMP", pageable);
+        return processRepository.findAllByStatusIsOrderByProcessidDesc("COMP", pageable);
     }
 
     @Transactional

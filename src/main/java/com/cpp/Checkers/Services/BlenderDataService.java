@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
 
 @Service
 public class BlenderDataService {
@@ -39,7 +41,8 @@ public class BlenderDataService {
         if (exitCode == 0) System.out.println("Процесс №" + process.getProcessid() + " успешно выполнился");
         else System.out.println("Процесс №" + process.getProcessid() + " не выполнился");
         processService.changeStatus(process, "COMP");
-        process.setJsPath("static/images/"+process.getProcessid()+ "/" + process.getProcessid() + "_text.json");
+        process.setJsPath("images/"+process.getProcessid()+ "/" + process.getProcessid() + "_text.json");
         processService.save(process);
+        System.gc();
     }
 }

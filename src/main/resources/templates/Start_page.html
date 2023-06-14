@@ -1,116 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <title>Title</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Title</title>
 
-  <script src="js/script.js"></script>
+    <script src="/js/script.js"></script>
 
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <link rel="stylesheet" href="css/loading.css" type="text/css">
-  <link rel="stylesheet" type="text/css" href="css/SidePanel.css">
-  <link rel="stylesheet" type="text/css" href="css/dim.css">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="/css/loading.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/css/SidePanel.css">
+    <link rel="stylesheet" type="text/css" href="/css/dim.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
 </head>
 
 <body>
 <div id="heading">
-  <h1>.cpp Team present</h1>
+    <h1>.cpp Team present</h1>
 </div>
 <div id="panel">
-  <button id="toggleBtn">
-    <span class="stripe"></span>
-    <span class="stripe"></span>
-    <span class="stripe"></span>
-  </button>
-  <div id="panelContent">
-    <div id="extendedButtons">
-      <button type="submit" onclick="goToHome()">Home</button>
-      <button type="submit" onclick="goToResults()">Results</button>
+    <button id="toggleBtn">
+        <span class="stripe"></span>
+        <span class="stripe"></span>
+        <span class="stripe"></span>
+    </button>
+    <div id="panelContent">
+        <div id="extendedButtons">
+            <button type="submit" onclick="goToHome()">Home</button>
+            <button type="submit" onclick="goToResults()">Results</button>
+        </div>
     </div>
-  </div>
 </div>
-<script src="js/SidePanel.js"></script>
+<script src="/js/SidePanel.js"></script>
 
 <div id="section">
-  <h1>Проект генерации шашечных партий</h1>
-  <div>
+    <h1>Проект генерации шашечных партий</h1>
+    <div>
 
-    <h2>Ввод параметров:</h2>
-    <div id="wrapper">
-      <div class="container">
-        <form enctype="multipart/form-data" id="form">
+        <h2>Ввод параметров:</h2>
+        <div id="wrapper">
+            <div class="container">
+                <form enctype="multipart/form-data" id="form">
 
-          <label for="numOfCheckers"><main>Число фигур, которое можно использовать</main></label>
-          <br/>
-          <input type="number" id="numOfCheckers" name="numOfCheckers"/>
-          <br/>
-
-
-
-          <label for="resolution"><main>Разрешение исходного изображения</main></label>
-          <br/>
-          <input type="number" id="resolution" name="resolution"/>
-          <br/>
+                    <label for="numOfCheckers">
+                        <main>Число фигур, которое можно использовать</main>
+                    </label>
+                    <br/>
+                    <input type="number" id="numOfCheckers" name="numOfCheckers"/>
+                    <br/>
 
 
-
-          <label for="Samples"><main>Колво Сэмплов</main></label>
-          <br/>
-          <input type="number" id="Samples" name="samples" step="1"/>
-          <br/>
-
-
-          <label><main>Диапазон допустимого размера фигур</main></label>
-
-
-          <br/>
-          <label for="FigureSizeMin">FigureSizeMin</label>
-          <input type="number" id="FigureSizeMin" name="figureSizeMin" step="0.01"/>
-          <br/>
+                    <label for="resolution">
+                        <main>Разрешение исходного изображения</main>
+                    </label>
+                    <br/>
+                    <select id="resolution" , name="resolution">
+                        <option value="640x480">640x480</option>
+                        <option value="1280x1024">1280x1024</option>
+                        <option value="1960x1680">1960x1680</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                    <br/>
 
 
-          <label for="FigureSizeMax">FigureSizeMax</label>
-          <input type="number" id="FigureSizeMax" name="figureSizeMax" step="0.01"/>
-          <br/>
+                    <label for="Samples">
+                        <main>Колво Сэмплов</main>
+                    </label>
+                    <br/>
+                    <input type="number" id="Samples" name="samples" step="1"/>
+                    <br/>
 
 
-
-          <label><main>Диапазон сдвига фигур относительно начальной позиции</main></label>
-          <br/>
-          <label for="x_min">x_min</label>
-          <input type="number" id="x_min" name="x_min" step="1"/>
-          <br/>
-          <label for="x_max">x_max</label>
-          <input type="number" id="x_max" name="x_max" step="1"/>
-          <br/>
-          <label for="y_min">y_min</label>
-          <input type="number" id="y_min" name="y_min" step="1"/>
-          <br/>
-          <label for="y_max">y_max</label>
-          <input type="number" id="y_max" name="y_max" step="1"/>
-          <br/>
-          <label for="z_min">z_min</label>
-          <input type="number" id="z_min" name="z_min" step="1"/>
-          <br/>
-          <label for="z_max">z_max</label>
-          <input type="number" id="z_max" name="z_max" step="1"/>
-          <br/>
+                    <label>
+                        <main>Диапазон допустимого размера фигур</main>
+                    </label>
 
 
-          <button id="standart-button" type="submit" onclick="saveFormData(event)">Send to Server as JSON</button>
-        </form>
-      </div>
+                    <br/>
+                    <label for="FigureSizeMin">FigureSizeMin</label>
+                    <input type="number" id="FigureSizeMin" name="figureSizeMin" step="0.01"/>
+                    <br/>
+
+
+                    <label for="FigureSizeMax">FigureSizeMax</label>
+                    <input type="number" id="FigureSizeMax" name="figureSizeMax" step="0.01"/>
+                    <br/>
+
+
+                    <label>
+                        <main>Диапазон сдвига фигур относительно начальной позиции</main>
+                    </label>
+                    <br/>
+                    <label for="x_min">x_min</label>
+                    <input type="number" id="x_min" name="x_min" step="1"/>
+                    <br/>
+                    <label for="x_max">x_max</label>
+                    <input type="number" id="x_max" name="x_max" step="1"/>
+                    <br/>
+                    <label for="y_min">y_min</label>
+                    <input type="number" id="y_min" name="y_min" step="1"/>
+                    <br/>
+                    <label for="y_max">y_max</label>
+                    <input type="number" id="y_max" name="y_max" step="1"/>
+                    <br/>
+                    <label for="z_min">z_min</label>
+                    <input type="number" id="z_min" name="z_min" step="1"/>
+                    <br/>
+                    <label for="z_max">z_max</label>
+                    <input type="number" id="z_max" name="z_max" step="1"/>
+                    <br/>
+
+
+                    <button id="standart-button" type="submit" onclick="saveFormData(event)">Send to Server as JSON
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="loading-animation" style="display: none;"></div>
+        <div id="json_download"></div>
+        <div id="json_data"></div>
+
+        <img id="myImage" src=""/>
     </div>
-    <div id="loading-animation" style="display: none;"></div>
-    <div id="json_download"></div>
-    <div id="json_data"></div>
-
-    <figure>
-      <img id="myImage" alt="Default image" style="display: none;">
-    </figure>
-  </div>
 </div>
 </body>
 </html>

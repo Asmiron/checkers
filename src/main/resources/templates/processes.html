@@ -3,12 +3,35 @@
 <head>
   <title>File List</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="../js/processes.js"></script>
+  <script src="/js/processes.js"></script>
+
+  <link rel="stylesheet" href="/css/styles.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/css/SidePanel.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
 </head>
 <body>
-<h1>File List</h1>
-<ul id="file-list"></ul>
-<h2>Selected Image</h2>
+
+<div id="panel">
+  <button id="toggleBtn">
+    <span class="stripe"></span>
+    <span class="stripe"></span>
+    <span class="stripe"></span>
+  </button>
+  <div id="panelContent">
+    <div id="extendedButtons">
+      <button type="submit" onclick="goToHome()">Home</button>
+      <button type="submit" onclick="goToResults()">Results</button>
+    </div>
+  </div>
+</div>
+<script src="/js/SidePanel.js"></script>
+<div id="section">
+  <h1>Список результатов</h1>
+</div>
+<div id="file-list-container">
+  <ul id="file-list"></ul>
+</div>
+<h2>Выбранное изображение</h2>
 <div id="image-container"></div>
 </body>
 </html>

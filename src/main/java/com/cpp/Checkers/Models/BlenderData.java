@@ -4,20 +4,22 @@ import com.cpp.Checkers.CustomAnnotations.FieldsMinMax;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class BlenderData {
-    public BlenderData() {
-    }
 
     @Valid
     private offset offset;
 
     @Valid
     private FigureSize figureSize;
-
-
-
 
     @NotNull(message = "numOfCheckers should not be null")
     @Min(value = 0, message = "numOfCheckers should be more than 0 and less than 24")
@@ -41,25 +43,11 @@ public class BlenderData {
             Min = "FigureSizeMin",
             Max = "FigureSizeMax"
     )
+    @Getter
+    @Setter
+    @NoArgsConstructor
     private static class FigureSize{
-        public FigureSize() {
-        }
 
-        public float getFigureSizeMin() {
-            return FigureSizeMin;
-        }
-
-        public void setFigureSizeMin(float figureSizeMin) {
-            FigureSizeMin = figureSizeMin;
-        }
-
-        public float getFigureSizeMax() {
-            return FigureSizeMax;
-        }
-
-        public void setFigureSizeMax(float figureSizeMax) {
-            FigureSizeMax = figureSizeMax;
-        }
 
         public FigureSize(float figureSizeMin, float figureSizeMax) {
             FigureSizeMin = figureSizeMin;
@@ -104,6 +92,8 @@ public class BlenderData {
                     message = "Field z_min should not be more than z_max"
             )
     })
+    @Getter
+    @Setter
     public static class offset{
         public offset() {
         }
@@ -129,53 +119,6 @@ public class BlenderData {
             this.z_max = z_max;
         }
 
-        public float getX_min() {
-            return x_min;
-        }
-
-        public void setX_min(float x_min) {
-            this.x_min = x_min;
-        }
-
-        public float getX_max() {
-            return x_max;
-        }
-
-        public void setX_max(float x_max) {
-            this.x_max = x_max;
-        }
-
-        public float getY_min() {
-            return y_min;
-        }
-
-        public void setY_min(float y_min) {
-            this.y_min = y_min;
-        }
-
-        public float getY_max() {
-            return y_max;
-        }
-
-        public void setY_max(float y_max) {
-            this.y_max = y_max;
-        }
-
-        public float getZ_min() {
-            return z_min;
-        }
-
-        public void setZ_min(float z_min) {
-            this.z_min = z_min;
-        }
-
-        public float getZ_max() {
-            return z_max;
-        }
-
-        public void setZ_max(float z_max) {
-            this.z_max = z_max;
-        }
 
         @NotNull
         @Min(value = 0)
@@ -225,52 +168,13 @@ public class BlenderData {
         offset = new offset(x_min, x_max, y_min, y_max, z_min, z_max);
     }
 
-    public int getNumOfCheckers() {
-        return numOfCheckers;
-    }
-
-    public void setNumOfCheckers(int numOfCheckers) {
-        this.numOfCheckers = numOfCheckers;
-    }
-
-    public String getResolution() {
-        return resolution;
-    }
-
-    public void setResolution(String resolution) {
-        this.resolution = resolution;
-    }
-
-    public int getSamples() {
-        return Samples;
-    }
-
-    public void setSamples(int samples) {
-        Samples = samples;
-    }
-
-    public FigureSize getFigureSize() {
-        return figureSize;
-    }
-
-    public void setFigureSize(FigureSize figureSize) {
-        this.figureSize = figureSize;
-    }
-
-    public offset getOffset() {
-        return offset;
-    }
-
-    public void setOffset(offset offset) {
-        this.offset = offset;
-    }
 
     @Override
     public String toString() {
         return "BlenderData{" +
                 "offset=" + offset.toString() +
                 ", numOfCheckers=" + numOfCheckers +
-                ", resolution='" + resolution +
+                ", resolution='" + resolution + "'" +
                 ", Samples=" + Samples +
                 ", FigureSize=" + figureSize.toString() +
                 '}';

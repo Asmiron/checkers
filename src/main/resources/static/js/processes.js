@@ -13,12 +13,19 @@ $(document).ready(function() {
                 // Create list items for each file
                 fileList.forEach(function(file) {
                     var listItem = $('<li></li>');
-                    var fileLink = $('<a></a>').text(file.processid).attr('href', '#');
+                    var fileLink = $('<a></a>').text(file.processid + " Create date: "+ new Date().toLocaleString("ru", file.init_date)).attr('href', '#');
                     fileLink.on('click', function() {
                         // When a file link is clicked, load the corresponding image
                         var imageContainer = $('#image-container');
                         var image = $('<img>').attr('src', '/images/' + file.processid + '/'+ file.processid +'.jpg');
                         imageContainer.empty().append(image);
+                        fetch('../' + file.jsPath)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Display the JSON content on the website
+                                var fileJson = $('<label></label>').text(JSON.stringify(data, null, 2))
+                                imageContainer.append(fileJson);
+                            })
                     });
                     listItem.append(fileLink);
                     listContainer.append(listItem);

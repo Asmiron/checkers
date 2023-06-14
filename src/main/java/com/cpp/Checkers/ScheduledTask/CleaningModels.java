@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 
 @Component
@@ -41,13 +42,14 @@ public class CleaningModels {
 
         //если это папка, то идем внутрь этой папки и вызываем рекурсивное удаление всего, что там есть
         if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
+            for (File f : Objects.requireNonNull(file.listFiles())) {
                 // рекурсивный вызов
                 recursiveDelete(f);
             }
         }
         // вызываем метод delete() для удаления файлов и пустых(!) папок
-        file.delete();
-        System.out.println("Удаленный файл или папка: " + file.getAbsolutePath());
+        boolean delExCode = file.delete();
+        if (delExCode)  System.out.println("Удаленный файл или папка: " + file.getAbsolutePath());
+        else System.out.println("Не удалось удалить файл");
     }
 }

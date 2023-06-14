@@ -25,10 +25,10 @@ def hello(obj, id):
     with open("C:/Users/yaram/PycharmProjects/pythonProject5/main/" + id + "_text.json", "w") as file:
         file.write(json.dumps(obj))
     source_path = "C:/Users/yaram/PycharmProjects/pythonProject5/main/" + id + "_text.json"
-    time.sleep(5)
     if path.exists(source_path):
         destination = "C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" + id
         shutil.move(source_path, destination)
+    time.sleep(2)
     file.close()
 
 
@@ -36,4 +36,5 @@ script, pathMap, id = argv
 with open(pathMap, "r") as fh:
     input = json.load(fh)
 hello(input, id)
+fh.close()
 

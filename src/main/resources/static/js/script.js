@@ -42,13 +42,13 @@ function sendData(data) {
     console.log("xhr");
     xhr.open("POST", "/processes", true);
     xhr.setRequestHeader("Content-Type", "application/json");
+    document.getElementById('loading-animation').style.display = 'block';
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 console.log(xhr.responseText);
             } else {
                 document.body.classList.add('dimmed');
-                document.getElementById('loading-animation').style.display = 'block';
                 setTimeout(function() {
                     sendGetRequest();
                 }, 5000);
@@ -67,9 +67,10 @@ function sendGetRequest() {
             let imagePath = response.imagePath;
 
             // Update the image and json text
-            let img = document.getElementById("myImage");
+
             let jsonData = document.getElementById("json_data");
-            img.src = imagePath;
+            alert(imagePath)
+            document.getElementById("myImage").src = imagePath;
             jsonData.textContent = jsonText;
             document.body.classList.remove('dimmed');
             document.getElementById("loading-animation").style.display = "none";

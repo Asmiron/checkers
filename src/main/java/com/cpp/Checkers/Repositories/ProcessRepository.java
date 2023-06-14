@@ -17,7 +17,7 @@ public interface ProcessRepository extends JpaRepository<Process, Integer> {
             nativeQuery = true)
     List<Process> ToBeDeleted(@Param("date") Date date);
 
-    List<Process> findAllByStatusIs(String status, Pageable var1);
+    List<Process> findAllByStatusIsOrderByProcessidDesc(String status, Pageable var1);
 
     Process findByProcessid(Integer process_id);
 }
