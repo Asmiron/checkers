@@ -26,7 +26,7 @@ def hello(obj, id):
         file.write(json.dumps(obj))
     source_path = "C:/Users/yaram/PycharmProjects/pythonProject5/main/" + id + "_text.json"
     if path.exists(source_path):
-        destination = "C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" + id
+        destination = "C:/Users/yaram/IdeaProjects/Checkers/src/main/webapp/WEB-INF/images/" + id
         shutil.move(source_path, destination)
     time.sleep(2)
     file.close()

@@ -2,9 +2,7 @@ package com.cpp.Checkers.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 import java.util.Date;
@@ -39,13 +37,5 @@ public class Process {
     private String JsPath;
 
 
-    @Override
-    public String toString() {
-        return "Process{" +
-                "processid=" + processid +
-                ", status='" + status + '\'' +
-                ", init_date=" + init_date +
-                ", del_date=" + del_date +
-                '}';
-    }
+
 }

@@ -29,8 +29,8 @@ public class BlenderDataService {
 
     @Transactional
     public void sendToBlender(BlenderData blenderData, Process process) throws IOException, InterruptedException {
-        Files.createDirectories(Paths.get("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/"+process.getProcessid()));
-        File jsonMap = new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" + process.getProcessid() + "/" + process.getProcessid() + ".json" );
+        Files.createDirectories(Paths.get("C:/Users/yaram/IdeaProjects/Checkers/src/main/webapp/WEB-INF/images/"+process.getProcessid()));
+        File jsonMap = new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/webapp/WEB-INF/images/" + process.getProcessid() + "/" + process.getProcessid() + ".json" );
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(jsonMap, blenderData);
         ProcessBuilder processBuilder =
@@ -41,7 +41,7 @@ public class BlenderDataService {
         if (exitCode == 0) System.out.println("Процесс №" + process.getProcessid() + " успешно выполнился");
         else System.out.println("Процесс №" + process.getProcessid() + " не выполнился");
         processService.changeStatus(process, "COMP");
-        process.setJsPath("images/"+process.getProcessid()+ "/" + process.getProcessid() + "_text.json");
+        process.setJsPath("WEB-INF/images/"+process.getProcessid()+ "/" + process.getProcessid() + "_text.json");
         processService.save(process);
         System.gc();
     }

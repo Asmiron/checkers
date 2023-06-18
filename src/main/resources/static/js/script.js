@@ -43,12 +43,12 @@ function sendData(data) {
     xhr.open("POST", "/processes", true);
     xhr.setRequestHeader("Content-Type", "application/json");
     document.getElementById('loading-animation').style.display = 'block';
+    document.body.classList.add('dimmed');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 console.log(xhr.responseText);
             } else {
-                document.body.classList.add('dimmed');
                 setTimeout(function() {
                     sendGetRequest();
                 }, 5000);
@@ -64,13 +64,13 @@ function sendGetRequest() {
         if (xhr.readyState === 4 && xhr.status === 201) {
             let response = JSON.parse(xhr.responseText);
             let jsonText = JSON.stringify(response.json_data);
-            let imagePath = response.imagePath;
+            let image = response.image;
 
             // Update the image and json text
 
             let jsonData = document.getElementById("json_data");
-            alert(imagePath)
-            document.getElementById("myImage").src = imagePath;
+            alert(image)
+            document.getElementById("myImage").src = `data:image/jpg;base64,${image}`;
             jsonData.textContent = jsonText;
             document.body.classList.remove('dimmed');
             document.getElementById("loading-animation").style.display = "none";

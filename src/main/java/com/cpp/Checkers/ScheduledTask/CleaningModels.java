@@ -26,7 +26,7 @@ public class CleaningModels {
     public void CleanModels(){
         List<Process> processes = processService.getToBeDeleted();
         for (Process process: processes) {
-            File file = new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/resources/static/images/" + process.getProcessid());
+            File file = new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/webapp/WEB-INF/images/" + process.getProcessid());
             if(file.exists()){
                 recursiveDelete(file);
                 process.setStatus("DEL");
