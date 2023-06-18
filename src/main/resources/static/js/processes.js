@@ -14,18 +14,24 @@ $(document).ready(function() {
                 fileList.forEach(function(file) {
                     var listItem = $('<li></li>');
                     var fileLink = $('<a></a>').text(file.processid + " Create date: "+ new Date().toLocaleString("ru", file.init_date)).attr('href', '#');
+                    var id=file.processid
                     fileLink.on('click', function() {
                         // When a file link is clicked, load the corresponding image
                         var imageContainer = $('#image-container');
-                        var image = $('<img>').attr('src', '/images/' + file.processid + '/'+ file.processid +'.jpg');
-                        imageContainer.empty().append(image);
-                        fetch('../' + file.jsPath)
-                            .then(response => response.json())
+                        var url = `/processes/${id}`;
+                        fetch(url)
+                            .then(response => response.json()) // Преобразование ответа в JSON
                             .then(data => {
-                                // Display the JSON content on the website
-                                var fileJson = $('<label></label>').text(JSON.stringify(data, null, 2))
+                                var base64Image = data.image; // Предполагается, что в ответе есть поле "image" с кодом base64
+                                var image = new Image();
+                                image.src = 'data:image/jpg;base64,' + base64Image; // Устанавливаем источник изображения
+                                imageContainer.empty().append(image);
+                                var fileJson = $('<label></label>').text(JSON.stringify(data.json_data, null, 2))
                                 imageContainer.append(fileJson);
                             })
+                            .catch(error => {
+                                console.error('Ошибка при обработке изображения:', error);
+                            });
                     });
                     listItem.append(fileLink);
                     listContainer.append(listItem);
