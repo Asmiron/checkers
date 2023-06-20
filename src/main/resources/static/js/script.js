@@ -32,7 +32,6 @@ function saveFormData(event) {
 
     let jsonData = JSON.stringify(formData);
     sendData(jsonData);
-    alert("AGA");
 }
 
 
@@ -69,7 +68,6 @@ function sendGetRequest() {
             // Update the image and json text
 
             let jsonData = document.getElementById("json_data");
-            alert(image)
             document.getElementById("myImage").src = `data:image/jpg;base64,${image}`;
             jsonData.textContent = jsonText;
             document.body.classList.remove('dimmed');
@@ -96,6 +94,8 @@ function sendGetRequest() {
 
             document.body.classList.remove('dimmed');
             document.getElementById("loading-animation").style.display = "none";
+            document.getElementById("json_download").style.display = "block";
+            document.getElementById("json_data").style.display = "block";
             window.scrollTo({
                 top: document.body.scrollHeight,
                 behavior: 'smooth'

@@ -26,7 +26,8 @@ $(document).ready(function() {
                                 var image = new Image();
                                 image.src = 'data:image/jpg;base64,' + base64Image; // Устанавливаем источник изображения
                                 imageContainer.empty().append(image);
-                                var fileJson = $('<label></label>').text(JSON.stringify(data.json_data, null, 2))
+                                var fileJson = $('<label_JS></label_JS>').text(JSON.stringify(data.json_data, null, 2));
+                                imageContainer.append('<br>'); // Добавляем перевод строки
                                 imageContainer.append(fileJson);
                             })
                             .catch(error => {

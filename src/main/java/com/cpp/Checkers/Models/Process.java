@@ -36,6 +36,4 @@ public class Process {
     @Column(name = "jspath")
     private String JsPath;
 
-
-
 }

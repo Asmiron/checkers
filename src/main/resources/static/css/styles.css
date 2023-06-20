@@ -49,6 +49,23 @@ a {
     width: 507px;
     font-family: 'Oswald', sans-serif;
 }
+
+.JS {
+    display: flex;
+    justify-content: center;
+}
+
+.JS button {
+    margin: 20px 0 0 5px;
+    color: #fff;
+    background-color: #ff5555;
+    border: 3px solid #cacaca;
+    height: 32px;
+    width: 507px;
+    font-family: 'Oswald', sans-serif;
+}
+
+
 p {
     margin: 20px 0;
 }
@@ -134,4 +151,11 @@ label main {
 
 #file-list li a {
     font-size: 16px; /* Increase the font size as needed */
+}
+
+label_JS {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
 }
