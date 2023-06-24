@@ -6,21 +6,19 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class BlenderDataDTO {
-    public BlenderDataDTO() {
-    }
 
-    @JsonProperty("image")
     private byte[] Image;
 
-
     @JsonProperty("json_data")
-    public BlenderData json_data;
+    public CheckersCoord json_data;
 
 
 }

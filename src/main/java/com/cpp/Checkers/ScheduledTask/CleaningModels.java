@@ -3,6 +3,7 @@ package com.cpp.Checkers.ScheduledTask;
 import com.cpp.Checkers.Models.Process;
 import com.cpp.Checkers.Services.ProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,9 @@ import java.util.Objects;
 public class CleaningModels {
 
     private final ProcessService processService;
+
+    @Value("${Images.directories}")
+    private String ImagesDirPath;
 
     @Autowired
     public CleaningModels(ProcessService processService) {

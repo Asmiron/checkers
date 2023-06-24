@@ -5,6 +5,7 @@ import com.cpp.Checkers.Models.Process;
 import com.cpp.Checkers.Services.BlenderDataService;
 import com.cpp.Checkers.Services.ProcessService;
 import com.cpp.Checkers.dto.BlenderDataDTO;
+import com.cpp.Checkers.dto.CheckersCoord;
 import com.cpp.Checkers.dto.ProcessDTO;
 import com.cpp.Checkers.util.BlenderDataErrorResponse;
 import com.cpp.Checkers.util.BlenderDataNotCreatedException;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,9 @@ public class StartPage implements ServletContextAware {
     private final BlenderDataService blenderDataService;
 
     private final ModelMapper modelMapper;
+
+    @Value("${Images.directories}")
+    private String ImagesDirectory;
 
     @Autowired
     public StartPage(ServletContext servletContext, ProcessService processService, BlenderDataService blenderDataService, ModelMapper modelMapper) {
@@ -102,10 +107,11 @@ public class StartPage implements ServletContextAware {
         else if (process.getStatus().equals("DEL"))
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else {
-            InputStream in = servletContext.getResourceAsStream("/WEB-INF/images/2040/2040.jpg");
-            return new ResponseEntity<>(new BlenderDataDTO(IOUtils.toByteArray(in), objectMapper.readValue(new File("C:/Users/yaram/IdeaProjects/Checkers/src/main/webapp/WEB-INF/images/"
-                    + process.getProcessid() + "/"
-                    + process.getProcessid() + "_text.json"), BlenderData.class)),
+            InputStream in = servletContext.getResourceAsStream(ImagesDirectory + "/" + process.getProcessid() + "/"
+            + process.getProcessid() + ".png");
+            return new ResponseEntity<>(new BlenderDataDTO(IOUtils.toByteArray(in),
+                    objectMapper.readValue(new File(ImagesDirectory + "/" + process.getProcessid() + "/"
+                            + process.getProcessid() + "_out.json" ), CheckersCoord.class)),
                     HttpStatus.CREATED);
         }
     }
